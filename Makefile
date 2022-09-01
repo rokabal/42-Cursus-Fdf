@@ -6,36 +6,100 @@
 #    By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/19 11:48:19 by rkassouf          #+#    #+#              #
-#    Updated: 2022/08/21 20:16:20 by rkassouf         ###   ########.fr        #
+#    Updated: 2022/08/30 19:46:32 by rkassouf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= test
+RM = rm -rf
 
-CC 		= gcc
-FLAGS	=  -Wall -Werror -Wextra
-RM		= /bin/rm -f
+# Executable / Libraries.
 
-SRC		= src/main.c src/drawn.c src/get_next_line.c src/get_next_line_utils.c \
-			src/read_map.c src/ft_split.c
-OBJ		= $(SRC:.c=.o)
+MLX				= libmlx_Linux.a
+FT				= libft.a
+NAME			= fdf
 
-all:	$(NAME)
+# Libraries.
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+LFT_DIR			= libft
+MLX_DIR			= mlx_linux
 
-$(NAME): $(OBJ)
-	make -C mlx
-	$(CC) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+# I/O Compilation.
+
+SRCS_DIR		= src
+OBJS_DIR		= obj
+
+# Location of all header files used in the project.
+
+INCS_DIR		:= inc
+INCS_DIR		+= $(LFT_DIR)/includes
+INCS_DIR		+= $(MLX_DIR)
+INCS_DIR		+= /usr/include
+
+# Every libraries needed to compile the project.
+
+LFT				= $(LFT_DIR)/$(FT)
+LMLX			= $(MLX_DIR)/$(MLX)
+
+# Used header at each compilation to check file integrity.
+
+INCS			= inc/fdf.h inc/keycode_linux.h
+
+# Source files.
+SRCS			= draw.c				free.c \
+				  main.c				read_map.c \
+				  rotation.c			hook.c \
+				  color.c
+
+# Some tricks in order to get the makefile doing his job.
+
+D_SRCS			= $(addsuffix /, $(SRCS_DIR))
+D_OBJS			= $(addsuffix /, $(OBJS_DIR))
+C_OBJS			= $(addprefix $(D_OBJS), $(OBJS))
+C_INCS			= $(foreach include, $(INCS_DIR), -I$(include))
+
+# How files should be compiled.
+
+CC				= gcc
+OBJS			= $(SRCS:.c=.o)
+
+# Compilation flags.
+
+CFLAGS			= $(C_INCS) -Wall -Wextra
+
+# Redefinition of the implicit compilation rule to prompt some informations.
+
+$(D_OBJS)%.o: $(D_SRCS)%.c $(INCS)
+	@$(CC) $(CFLAGS) -O3 -c $< -o $@
+
+# Implicit make rule simply using dependancies to compile our project.
+
+all: $(OBJS_DIR) $(NAME)
+
+$(NAME): $(LMLX) $(LFT) $(C_OBJS)
+	$(CC) $(C_OBJS) -L$(LFT_DIR) -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+
+# Libraries installion using their own Makefile.
+
+$(LFT):
+	@make -sC $(LFT_DIR) -j
+
+$(LMLX):
+	@make -sC $(MLX_DIR) -j
+
+# Rules used to create folders if they aren't already existing.
+
+$(OBJS_DIR):
+	@mkdir -p $(OBJS_DIR)
+
+# Deleting all .o files.
 
 clean :
-	@make clean -C mlx
-	@rm -f $(OBJ)
+	@make -sC $(LFT_DIR) clean
+	@$(RM) -rf $(OBJS_DIR)
 
 fclean : clean
-	@rm -f $(NAME)
-	@rm -f libmlx.a
+	@make -sC $(LFT_DIR) fclean
+	@$(RM) $(NAME)
 
 re : fclean all
 
