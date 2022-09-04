@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 21:28:33 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/03 21:35:52 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/04 17:41:03 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@
 */
 
 # define ISOMETRIC		0
-# define PARALLEL		1
+# define PLAN			1
 
 /*
 **	Info
@@ -68,6 +68,7 @@
 # define HEIGHT			1080
 # define OFFSET			10
 # define Z_DIV_STEP		0.1
+# define MIN_Z_DIV		0.5
 # define MAX_Z_DIV		10
 
 /*
@@ -144,9 +145,9 @@ typedef struct s_cam
 	int		offset_x;
 	int		offset_y;
 	float	z_div;
-	double	alpha;
-	double	beta;
-	double	gamma;
+	float	alpha;
+	float	beta;
+	float	gamma;
 }	t_cam;
 
 typedef struct s_map

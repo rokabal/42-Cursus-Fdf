@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 08:51:55 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/03 09:20:57 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:37:20 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ void	change_colorset(int key, t_map *map)
 		pf_set(map);
 	else if (key == K_X)
 		reverse_set(map);
+	if (key != K_X)
+		map->color = 0;
 	update_image(map);
 }

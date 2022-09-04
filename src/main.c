@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:05:04 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/03 23:43:47 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/04 17:35:12 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	init_map(t_map *map, char *name)
 		p.x = -1;
 		while (++p.x < map->width)
 		{
+			// if (map->color && map->grid[p.y][p.x].color == -1)
+			// 		map->grid[p.y][p.x].color = 0xFFFFFF;
 			if (map->grid[p.y][p.x].z < map->z_min)
 				map->z_min = map->grid[p.y][p.x].z;
 			if (map->grid[p.y][p.x].z > map->z_max)
@@ -77,7 +79,7 @@ void	print_menu(t_map *map)
 	mlx_string_put(mlx, win, 57, y += 25, TEXT_COLOR, "Reverse: X");
 	mlx_string_put(mlx, win, 15, y += 30, TEXT_COLOR, "Projection:");
 	mlx_string_put(mlx, win, 57, y += 25, TEXT_COLOR, "ISO: I");
-	mlx_string_put(mlx, win, 57, y += 25, TEXT_COLOR, "Parallel: P");
+	mlx_string_put(mlx, win, 57, y += 25, TEXT_COLOR, "Plan: P");
 }
 
 int	main(int argc, char **argv)

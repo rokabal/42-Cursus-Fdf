@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 21:48:14 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/04 00:14:20 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/04 17:40:53 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,21 @@ static void	offset(int key, t_map *map)
 
 static void	rotate(int key, t_map *map)
 {
-	double	angle;
+	float	angle;
 
 	angle = M_PI / 180;
 	if (key == K_Z)
-		map->cam.alpha -= angle;
-	else if (key == K_E)
 		map->cam.alpha += angle;
+	else if (key == K_E)
+		map->cam.alpha -= angle;
 	else if (key == K_C)
-		map->cam.beta -= angle;
-	else if (key == K_Q)
 		map->cam.beta += angle;
+	else if (key == K_Q)
+		map->cam.beta -= angle;
 	else if (key == K_A)
-		map->cam.gamma -= angle;
-	else if (key == K_D)
 		map->cam.gamma += angle;
+	else if (key == K_D)
+		map->cam.gamma -= angle;
 	update_image(map);
 }
 
@@ -50,7 +50,7 @@ static void	change_view(int key, t_map *map)
 	if ((key == K_I) || (key == K_R))
 		map->cam.type = ISOMETRIC;
 	else if (key == K_P)
-		map->cam.type = PARALLEL;
+		map->cam.type = PLAN;
 	map->cam.zoom = fmin(WIDTH / map->width / 2, HEIGHT / map->height / 2);
 	map->cam.z_div = 10;
 	map->cam.offset_x = 0;
@@ -65,7 +65,7 @@ static void	altitude_zoom(int key, t_map *map)
 {
 	if ((key == K_S) && map->cam.z_div < MAX_Z_DIV)
 		map->cam.z_div += Z_DIV_STEP;
-	else if ((key == K_W) && map->cam.z_div > 0.5)
+	else if ((key == K_W) && map->cam.z_div > MIN_Z_DIV)
 		map->cam.z_div -= Z_DIV_STEP;
 	else if ((key == K_N) && map->cam.zoom > 1)
 		map->cam.zoom--;
