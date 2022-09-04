@@ -6,7 +6,7 @@
 #    By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/19 11:48:19 by rkassouf          #+#    #+#              #
-#    Updated: 2022/08/30 19:46:32 by rkassouf         ###   ########.fr        #
+#    Updated: 2022/09/03 09:12:09 by rkassouf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ INCS			= inc/fdf.h inc/keycode_linux.h
 SRCS			= draw.c				free.c \
 				  main.c				read_map.c \
 				  rotation.c			hook.c \
-				  color.c
+				  color.c				colorset.c
 
 # Some tricks in order to get the makefile doing his job.
 

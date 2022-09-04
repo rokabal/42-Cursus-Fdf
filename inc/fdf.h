@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 21:28:33 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/01 00:19:15 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/03 21:35:52 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,64 @@
 # include <stdlib.h>
 
 /*
-**	Available projections and some informations
+**	Gray to Red (GTR_)
+*/
+
+# define GTR_1			0xd7e1ee
+# define GTR_2			0xbfcbdb
+# define GTR_3			0xa4a2a8
+# define GTR_4			0xc86558
+# define GTR_5			0x991f17
+
+/*
+**	Blue to Yellow (BTY_)
+*/
+
+# define BTY_1			0x115f9a
+# define BTY_2			0x22a7f0
+# define BTY_3			0x76c68f
+# define BTY_4			0xc9e52f
+# define BTY_5			0xd0f400
+
+/*
+**	Pink Foam (PF_)
+*/
+
+# define PF_1			0x54bebe
+# define PF_2			0x98d1d1
+# define PF_3			0xdedad2
+# define PF_4			0xdf979e
+# define PF_5			0xc80064
+
+# define TEXT_COLOR		0xEAEAEA
+
+/*
+**	Available projections
 */
 
 # define ISOMETRIC		0
 # define PARALLEL		1
+
+/*
+**	Info
+*/
+
+# define WIDTH			1920
+# define HEIGHT			1080
 # define OFFSET			10
-# define ANGLE_RAD		0.05
-# define ALTITUDE		1
-# define MIN_ALTITUDE	1
-# define MAX_ALTITUDE	20
-# define WIDTH			1280
-# define HEIGHT			720
+# define Z_DIV_STEP		0.1
+# define MAX_Z_DIV		10
+
+/*
+**	Events for hook
+*/
+
 # define ON_KEYDOWN		2
 # define ON_KEYUP		3
-# define ON_MOUSEDOWN	4
-# define ON_MOUSEUP		5
-# define ON_MOUSEMOVE	6
-# define ON_EXPOSE		12
+// # define ON_MOUSEDOWN	4
+// # define ON_MOUSEUP		5
+// # define ON_MOUSEMOVE	6
+// # define ON_EXPOSE		12
 # define ON_DESTROY		17
 
 /*
@@ -100,10 +140,10 @@ typedef struct s_pms
 typedef struct s_cam
 {
 	int		type;
-	int		altitude;
 	int		zoom;
 	int		offset_x;
 	int		offset_y;
+	float	z_div;
 	double	alpha;
 	double	beta;
 	double	gamma;
@@ -117,18 +157,27 @@ typedef struct s_map
 	int		height;
 	char	*name;
 	int		fd;
+	int		z_min;
+	int		z_max;
+	int		color;
+	int		colorset[5];
 	t_cam	cam;
 	t_img	img;
 	t_pix	**grid;
 }	t_map;
 
+void	pf_set(t_map *map);
 void	read_map(t_map *map);
 void	draw_map(t_map *map);
+int		terminate(void *param);
+void	print_menu(t_map *map);
+void	update_image(t_map *map);
+int		init_color(t_map *map, int z);
+int		key_hook(int key, void *param);
+t_pix	transform(t_pix p, t_map *map);
+void	change_colorset(int key, t_map *map);
 void	draw_line(t_map *map, t_pix p1, t_pix p2);
 void	free_map(t_map *map, char *err_msg, int err);
 int		gradient(t_pix p, t_pix start, t_pix end, t_pms pms);
-int		key_hook(int key, void *param);
-int		terminate(void *param);
-t_pix	transform(t_pix p, t_map *map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:20:56 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/08/31 23:30:10 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/03 19:39:53 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,19 @@ static void	get_size(t_map *map)
 		line = get_next_line(map->fd);
 		if (!line)
 			break ;
-		map->height++;
 		values = ft_split(line, ' ');
 		free(line);
 		if (!values)
 			free_map(map, ERR_SPLIT, 1);
 		width = line_width(values);
-		if (!map->width)
+		if (!map->width && width)
 			map->width = width;
+		else if (!width)
+			break ;
 		free_split(values);
 		if (width != map->width)
 			free_map(map, ERR_WIDTH, 1);
+		map->height++;
 	}
 	if (!map->height)
 		free_map(map, ERR_EMPTY_FILE, 1);
@@ -58,7 +60,7 @@ static int	get_color(char *value)
 	while (value[i] && value[i] != 'x')
 		i++;
 	if (!value[i])
-		return (0);
+		return (-1);
 	nbr = 0;
 	while (value[++i])
 	{
@@ -69,7 +71,7 @@ static int	get_color(char *value)
 		else if (value[i] >= 'A' && value[i] <= 'F')
 			nbr = 16 * nbr + (value[i] - 'A' + 10);
 		else
-			return (0);
+			return (-1);
 	}
 	return (nbr);
 }
@@ -92,8 +94,12 @@ static void	get_pos(t_map *map)
 			free_map(map, ERR_SPLIT, 1);
 		p.x = -1;
 		while (++p.x < map->width)
+		{
 			map->grid[p.y][p.x] = (t_pix){p.x, p.y, ft_atoi(values[p.x]),
 				get_color(values[p.x])};
+			if (get_color(values[p.x]) != -1)
+				map->color = 1;
+		}
 		free_split(values);
 		p.y++;
 	}

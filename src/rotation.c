@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 23:41:49 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/08/30 21:05:05 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/03 23:51:41 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ void	parallel(t_pix *new)
 	new->y = old.y - old.z * sin(0.785398);
 }
 
-void	rotate_pixel(t_pix *new, double alpha, double beta, double gamma)
+void	rotation(t_pix *new, double alpha, double beta, double gamma)
 {
 	t_pix	old;
 
 	old = *new;
-	new->y = old.y * cos(alpha) - old.z * sin(alpha);
-	new->z = old.y * sin(alpha) + old.z * cos(alpha);
-	new->x = old.x * cos(beta) - new->z * sin(beta);
-	new->z = old.x * sin(beta) + new->z * cos(beta);
+	new->y = old.y * cos(alpha) + old.z * sin(alpha);
+	new->z = -old.y * sin(alpha) + old.z * cos(alpha);
+	new->x = old.x * cos(beta) + new->z * sin(beta);
+	new->z = -old.x * sin(beta) + new->z * cos(beta);
 	old = *new;
 	new->x = old.x * cos(gamma) - old.y * sin(gamma);
 	new->y = old.x * sin(gamma) + old.y * cos(gamma);
@@ -46,14 +46,16 @@ void	rotate_pixel(t_pix *new, double alpha, double beta, double gamma)
 
 t_pix	transform(t_pix p, t_map *map)
 {
-	if (!p.color)
-		p.color = 0x00FF00;
-	p.y *= map->cam.zoom;
+	if (map->color && p.color == -1)
+		p.color = 0xFFFFFF;
+	if (!map->color || p.color == -1)
+		p.color = init_color(map, p.z);
 	p.x *= map->cam.zoom;
-	p.z *= map->cam.zoom / map->cam.altitude;
-	p.x -= (map->width * map->cam.zoom) / 2;
-	p.y -= (map->height * map->cam.zoom) / 2;
-	rotate_pixel(&p, map->cam.alpha, map->cam.beta, map->cam.gamma);
+	p.y *= map->cam.zoom;
+	p.z *= map->cam.zoom / map->cam.z_div;
+	p.x -= map->width * map->cam.zoom / 2;
+	p.y -= map->height * map->cam.zoom / 2;
+	rotation(&p, map->cam.alpha, map->cam.beta, map->cam.gamma);
 	if (map->cam.type == ISOMETRIC)
 		isometric(&p);
 	else if (map->cam.type == PARALLEL)

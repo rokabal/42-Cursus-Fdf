@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 21:20:19 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/01 00:16:26 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/03 23:06:14 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void	set_parameters(t_pms *pms, t_pix p1, t_pix p2)
 /**
  * @brief Drawn a line connecting the position p1 and p2 using
  * Bresenham's line algorithm
- * 
  */
 void	draw_line(t_map *map, t_pix p1, t_pix p2)
 {
@@ -99,4 +98,16 @@ void	draw_map(t_map *map)
 					transform(map->grid[y + 1][x], map));
 		}
 	}
+}
+
+void	update_image(t_map *map)
+{
+	if (map->img.img)
+		mlx_destroy_image(map->mlx, map->img.img);
+	map->img.img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
+	map->img.addr = mlx_get_data_addr(map->img.img, &(map->img.bits_per_pixel),
+			&(map->img.line_length), &(map->img.endian));
+	draw_map(map);
+	mlx_put_image_to_window(map->mlx, map->win, map->img.img, 0, 0);
+	print_menu(map);
 }
