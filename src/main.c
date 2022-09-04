@@ -6,7 +6,7 @@
 /*   By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:05:04 by rkassouf          #+#    #+#             */
-/*   Updated: 2022/09/04 17:35:12 by rkassouf         ###   ########.fr       */
+/*   Updated: 2022/09/04 18:20:50 by rkassouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static void	init_map(t_map *map, char *name)
 		p.x = -1;
 		while (++p.x < map->width)
 		{
-			// if (map->color && map->grid[p.y][p.x].color == -1)
-			// 		map->grid[p.y][p.x].color = 0xFFFFFF;
 			if (map->grid[p.y][p.x].z < map->z_min)
 				map->z_min = map->grid[p.y][p.x].z;
 			if (map->grid[p.y][p.x].z > map->z_max)

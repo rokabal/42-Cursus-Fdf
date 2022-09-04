@@ -6,7 +6,7 @@
 #    By: rkassouf <rkassouf@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/19 11:48:19 by rkassouf          #+#    #+#              #
-#    Updated: 2022/09/03 09:12:09 by rkassouf         ###   ########.fr        #
+#    Updated: 2022/09/04 18:25:14 by rkassouf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ OBJS			= $(SRCS:.c=.o)
 
 # Compilation flags.
 
-CFLAGS			= $(C_INCS) -Wall -Wextra
+CFLAGS			= $(C_INCS) -Wall -Wextra -Werror
 
 # Redefinition of the implicit compilation rule to prompt some informations.
 
