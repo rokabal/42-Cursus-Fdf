@@ -13,6 +13,13 @@ https://en.wikipedia.org/wiki/Rotation_matrix
 ## Transformations in Graphics
 https://www.youtube.com/watch?v=vQ60rFwh2ig
 
+## Isometri projection
+u = x*cos(α) + y*cos(α+120°) + z*cos(α-120°)
+v = x*sin(α) + y*sin(α+120°) + z*sin(α-120°)
+For α = 30°:
+u = x*cos(30°) + y*cos(150°)
+v = x*sin(30°) + y*sin(150°) - z
+
 ## How to create linear gradient?
 https://github.com/VBrazhnik/FdF/wiki/How-to-create-linear-gradient%3F
 
