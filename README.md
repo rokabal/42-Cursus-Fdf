@@ -33,17 +33,3 @@ https://github.com/VBrazhnik/FdF/wiki/How-to-perform-isometric-transformations%3
 https://github.com/agavrel/42-fdf
 https://github.com/dredfort42/FDF
 https://github.com/ailopez-o/42Barcelona-FdF
-
-For mac
-# Redefinition of the implicit compilation rule to prompt some informations.
-
-$(D_OBJS)%.o: $(D_SRCS)%.c $(INCS)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-# Implicit make rule simply using dependancies to compile our project.
-
-all: $(OBJS_DIR) $(NAME)
-
-$(NAME): $(LMLX) $(LFT) $(C_OBJS)
-	$(CC) $(C_OBJS) -L$(LFT_DIR) -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-
