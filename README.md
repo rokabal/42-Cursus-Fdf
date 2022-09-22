@@ -13,7 +13,7 @@ https://en.wikipedia.org/wiki/Rotation_matrix
 ## Transformations in Graphics
 https://www.youtube.com/watch?v=vQ60rFwh2ig
 
-## Isometri projection
+## Isometric projection
 u = x*cos(α) + y*cos(α+120°) + z*cos(α-120°)
 v = x*sin(α) + y*sin(α+120°) + z*sin(α-120°)
 For α = 30°:
