@@ -66,6 +66,19 @@ OBJS			= $(SRCS:.c=.o)
 
 CFLAGS			= $(C_INCS) -Wall -Wextra -Werror
 
+# For mac
+# # Redefinition of the implicit compilation rule to prompt some informations.
+
+# $(D_OBJS)%.o: $(D_SRCS)%.c $(INCS)
+# 	@$(CC) $(CFLAGS) -c $< -o $@
+
+# # Implicit make rule simply using dependancies to compile our project.
+
+# all: $(OBJS_DIR) $(NAME)
+
+# $(NAME): $(LMLX) $(LFT) $(C_OBJS)
+#	$(CC) $(C_OBJS) -L$(LFT_DIR) -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+
 # Redefinition of the implicit compilation rule to prompt some informations.
 
 $(D_OBJS)%.o: $(D_SRCS)%.c $(INCS)
